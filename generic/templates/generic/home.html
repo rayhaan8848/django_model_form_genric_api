@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    ```
+    <title>CRUD Management System</title>
+
+    <!-- Bootstrap 5.3 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <style>
+        body {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(13, 110, 253, 0.18), transparent 30%),
+                radial-gradient(circle at bottom right, rgba(111, 66, 193, 0.18), transparent 30%),
+                #0f172a;
+            font-family: Arial, sans-serif;
+        }
+
+        .crud-container {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
+        .crud-card {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        }
+
+        .crud-header {
+            background: linear-gradient(135deg, #0d6efd, #6610f2);
+            color: white;
+            padding: 30px;
+        }
+
+        .crud-header h1 {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .crud-header p {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .add-btn {
+            border-radius: 10px;
+            padding: 10px 20px;
+            font-weight: 600;
+            background: white;
+            color: #0d6efd;
+            border: none;
+            transition: 0.3s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            background: #f8f9fa;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .table-wrapper {
+            padding: 25px;
+        }
+
+        .table {
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        .table thead th {
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border: none;
+            padding: 15px;
+        }
+
+        .table tbody td,
+        .table tbody th {
+            padding: 16px 15px;
+            border-color: #e9ecef;
+        }
+
+        .table tbody tr {
+            transition: 0.25s;
+        }
+
+        .table tbody tr:hover {
+            background: #f8faff;
+            transform: scale(1.005);
+        }
+
+        .id-badge {
+            background: #e7f1ff;
+            color: #0d6efd;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-weight: 700;
+        }
+
+        .age-badge {
+            background: #fff3cd;
+            color: #997404;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .email {
+            color: #64748b;
+        }
+
+        .action-btn {
+            border-radius: 8px;
+            padding: 7px 13px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: 0.25s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .empty-state {
+            padding: 40px;
+            text-align: center;
+            color: #94a3b8;
+        }
+
+        .footer-text {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .crud-container {
+                padding-top: 25px;
+            }
+
+            .crud-header {
+                padding: 20px;
+            }
+
+            .crud-header h1 {
+                font-size: 24px;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start !important;
+            }
+
+            .table-wrapper {
+                padding: 15px;
+                overflow-x: auto;
+            }
+
+            .table {
+                min-width: 700px;
+            }
+        }
+    </style>
+    ```
+
+</head>
+
+<body>
+
+    ```
+    <div class="container crud-container">
+
+        <div class="crud-card">
+
+            <!-- Header -->
+            <div class="crud-header">
+
+                <div class="d-flex justify-content-between align-items-center header-content">
+
+                    <div>
+                        <h1>
+                            <i class="bi bi-people-fill"></i>
+                            User Management
+                        </h1>
+
+                        <p>
+                            Manage users, update information and remove records.
+                        </p>
+                    </div>
+
+                    <a href="{% url 'create' %}"> <button class="btn add-btn">
+                            <i class="bi bi-plus-lg"></i>
+                            Add Info
+                        </button></a>
+
+                </div>
+
+            </div>
+
+
+            <!-- Table -->
+            <div class="table-wrapper">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h5 class="mb-1 fw-bold">User Records</h5>
+                        <small class="text-muted">
+                            All registered users
+                        </small>
+                    </div>
+
+                    <span class="badge bg-primary rounded-pill px-3 py-2">
+                        1 User
+                    </span>
+
+                </div>
+
+
+                <div class="table-responsive">
+
+                    <table class="table">
+
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Age</th>
+                                <th scope="col">Email</th>
+                                <th scope="col" class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for i in data %}
+                            <tr>
+
+                                <th scope="row">
+                                    <span class="id-badge">
+                                        {{i.id}}
+                                    </span>
+                                </th>
+
+                                <td>
+                                    <strong>{{i.name}}</strong>
+                                </td>
+
+                                <td>
+                                    <span class="age-badge">
+                                        {{i.age}} years
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="email">
+                                        {{i.email}}
+                                    </span>
+                                </td>
+
+                                <td class="text-center">
+
+                                    <a href="{% url 'delete' i.id %}"><button class="btn btn-danger action-btn me-1">
+                                            <i class="bi bi-trash3"></i>
+                                            Delete
+                                        </button></a>
+
+                                    <a href="{% url 'update' i.id %}"><button class="btn btn-primary action-btn">
+                                            <i class="bi bi-pencil-square"></i>
+                                            Edit
+                                        </button></a>
+
+                                </td>
+
+                            </tr>
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-text">
+            CRUD Management System • Built with Bootstrap
+        </div>
+
+    </div>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForClyvwxHj9JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+        crossorigin="anonymous"></script>
+    ```
+
+</body>
+
+</html>
